@@ -1,0 +1,12 @@
+{
+  "name": "nursing-home-screenshots",
+  "version": "1.0.0",
+  "private": true,
+  "description": "养老院信息管理系统截图辅助脚本",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}
