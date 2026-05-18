@@ -23,14 +23,14 @@
             <a href="${pageContext.request.contextPath}/notice">公告资讯</a>
             <a href="${pageContext.request.contextPath}/user/apply">提交入住申请</a>
             <a href="${pageContext.request.contextPath}/user/apply?action=my">我的申请记录</a>
-            <a href="${pageContext.request.contextPath}/logout" onclick="return confirmLogout();">退出登录</a>
+            <a href="${pageContext.request.contextPath}/logout" onclick="return window.confirm('\u786e\u8ba4\u9000\u51fa\u5f53\u524d\u8d26\u53f7\u5417\uff1f');">退出登录</a>
         </div>
     </div>
 </div>
 <div class="container">
     <div class="hero">
         <h2>欢迎您，<%= loginUser == null ? "" : loginUser.getRealName() %></h2>
-        <p>本院提供生活照护、起居协助、健康观察和温馨陪伴服务。您可以先查看公告资讯，再根据需要提交入住申请。</p>
+        <p>本院提供生活照护、起居协助、基础健康观察和温馨陪伴服务。您可以先查看公告资讯，再根据需要提交入住申请。</p>
         <div class="actions">
             <a class="button-link" href="${pageContext.request.contextPath}/user/apply">填写入住申请</a>
             <a class="button-link button-secondary" href="${pageContext.request.contextPath}/user/apply?action=my">查看申请记录</a>
@@ -44,7 +44,7 @@
         </div>
         <div class="card">
             <strong>办理流程</strong>
-            <p>提交入住申请后，管理员会进行审核；审核通过后，工作人员会继续完成入住登记和护理记录管理。</p>
+            <p>提交入住申请后，由管理员进行审核；审核通过后，由护工继续完成入住登记和护理记录管理。</p>
         </div>
     </div>
 

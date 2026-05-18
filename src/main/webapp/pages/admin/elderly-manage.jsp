@@ -8,22 +8,25 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>老人档案管理</title>
+    <title>老人档案查看</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 </head>
 <body>
 <div class="topbar">
     <div class="container">
-        <h1>老人档案管理</h1>
+        <h1>老人档案查看</h1>
         <div class="nav">
             <a href="${pageContext.request.contextPath}/admin/home">管理员首页</a>
-            <a href="${pageContext.request.contextPath}/admin/beds">床位信息管理</a>
+            <a href="${pageContext.request.contextPath}/admin/beds">床位状态查看</a>
         </div>
     </div>
 </div>
 <div class="container">
     <div class="table-panel">
         <h2>老人档案列表</h2>
+        <div class="section-tip">
+            <strong>说明：</strong>老人档案由护工在入住登记时生成，管理员仅查看档案内容，不执行新增或修改操作。
+        </div>
         <table>
             <tr>
                 <th>姓名</th>

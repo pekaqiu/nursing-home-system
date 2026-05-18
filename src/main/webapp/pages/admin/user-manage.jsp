@@ -40,7 +40,7 @@
                 <td><%= user.getUsername() %></td>
                 <td><%= user.getRealName() %></td>
                 <td><%= user.getPhone() %></td>
-                <td><%= "ADMIN".equals(user.getRole()) ? "管理员" : ("STAFF".equals(user.getRole()) ? "工作人员" : "普通用户") %></td>
+                <td><%= "ADMIN".equals(user.getRole()) ? "管理员" : ("STAFF".equals(user.getRole()) ? "护工" : "普通用户") %></td>
                 <td><%= user.getStatus() %></td>
             </tr>
             <% }} %>

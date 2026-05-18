@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class AuthFilter implements Filter {
+    private static final String ROLE_ADMIN = "ADMIN";
+    private static final String ROLE_STAFF = "STAFF";
+    private static final String ROLE_USER = "USER";
+
     @Override
     public void init(FilterConfig filterConfig) {
     }
@@ -40,21 +44,21 @@ public class AuthFilter implements Filter {
         }
 
         if (path.startsWith("/admin") || path.startsWith("/pages/admin")) {
-            if (!"ADMIN".equals(loginUser.getRole())) {
+            if (!ROLE_ADMIN.equals(loginUser.getRole())) {
                 resp.sendRedirect(contextPath + "/error.jsp?message=您无权访问该页面");
                 return;
             }
         }
 
         if (path.startsWith("/staff") || path.startsWith("/pages/staff")) {
-            if (!"STAFF".equals(loginUser.getRole())) {
-                resp.sendRedirect(contextPath + "/error.jsp?message=您无权访问该页面");
+            if (!ROLE_STAFF.equals(loginUser.getRole())) {
+                resp.sendRedirect(contextPath + "/error.jsp?message=该功能仅限护工操作");
                 return;
             }
         }
 
         if (path.startsWith("/user") || path.startsWith("/pages/user")) {
-            if (!"USER".equals(loginUser.getRole()) && !path.contains("notice")) {
+            if (!ROLE_USER.equals(loginUser.getRole()) && !path.contains("notice")) {
                 resp.sendRedirect(contextPath + "/error.jsp?message=您无权访问该页面");
                 return;
             }

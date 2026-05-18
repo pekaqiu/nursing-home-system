@@ -16,11 +16,16 @@ import java.text.SimpleDateFormat;
 
 @WebServlet("/staff/care-record")
 public class CareRecordServlet extends HttpServlet {
+    private static final String ROLE_STAFF = "STAFF";
+
     private final CareRecordService careRecordService = new CareRecordService();
     private final ElderlyProfileService elderlyProfileService = new ElderlyProfileService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!ensureStaff(req, resp)) {
+            return;
+        }
         req.setAttribute("careRecordList", careRecordService.findAll());
         req.setAttribute("elderlyList", elderlyProfileService.findAll());
         req.getRequestDispatcher("/pages/staff/care-record.jsp").forward(req, resp);
@@ -28,6 +33,10 @@ public class CareRecordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!ensureStaff(req, resp)) {
+            return;
+        }
+
         SysUser loginUser = (SysUser) req.getSession().getAttribute("loginUser");
         CareRecord record = new CareRecord();
         record.setElderlyId(Integer.valueOf(req.getParameter("elderlyId")));
@@ -40,6 +49,7 @@ public class CareRecordServlet extends HttpServlet {
         } catch (ParseException e) {
             throw new ServletException("护理时间格式错误", e);
         }
+
         boolean success = careRecordService.save(record);
         if (success) {
             resp.sendRedirect(req.getContextPath() + "/staff/care-record?success=1");
@@ -47,5 +57,14 @@ public class CareRecordServlet extends HttpServlet {
             req.setAttribute("errorMessage", "护理记录保存失败，请稍后重试。");
             doGet(req, resp);
         }
+    }
+
+    private boolean ensureStaff(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        SysUser loginUser = (SysUser) req.getSession().getAttribute("loginUser");
+        if (loginUser == null || !ROLE_STAFF.equals(loginUser.getRole())) {
+            resp.sendRedirect(req.getContextPath() + "/error.jsp?message=该功能仅限护工操作");
+            return false;
+        }
+        return true;
     }
 }

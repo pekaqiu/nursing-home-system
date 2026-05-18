@@ -8,48 +8,25 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>床位信息管理</title>
+    <title>床位状态查看</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
 </head>
 <body>
 <div class="topbar">
     <div class="container">
-        <h1>床位信息管理</h1>
+        <h1>床位状态查看</h1>
         <div class="nav">
             <a href="${pageContext.request.contextPath}/admin/home">管理员首页</a>
-            <a href="${pageContext.request.contextPath}/admin/elderly">老人档案管理</a>
+            <a href="${pageContext.request.contextPath}/admin/elderly">老人档案查看</a>
         </div>
     </div>
 </div>
 <div class="container">
-    <div class="panel">
-        <h2>新增床位</h2>
-        <form action="${pageContext.request.contextPath}/admin/beds" method="post">
-            <input type="hidden" name="action" value="add">
-            <label>房间号</label>
-            <input type="text" name="roomNo" required>
-
-            <label>床位号</label>
-            <input type="text" name="bedNo" required>
-
-            <label>床位类型</label>
-            <input type="text" name="bedType" required>
-
-            <label>状态</label>
-            <select name="status" required>
-                <option value="空闲">空闲</option>
-                <option value="已入住">已入住</option>
-            </select>
-
-            <label>备注</label>
-            <textarea name="remark"></textarea>
-
-            <button type="submit">保存床位</button>
-        </form>
-    </div>
-
     <div class="table-panel">
         <h2>床位列表</h2>
+        <div class="section-tip">
+            <strong>说明：</strong>床位状态会在护工完成入住登记后自动更新，管理员仅查看当前床位使用情况。
+        </div>
         <table>
             <tr>
                 <th>房间号</th>
@@ -57,7 +34,6 @@
                 <th>类型</th>
                 <th>状态</th>
                 <th>备注</th>
-                <th>状态调整</th>
             </tr>
             <% if (bedList != null) {
                 for (BedInfo bed : bedList) { %>
@@ -67,17 +43,6 @@
                 <td><%= bed.getBedType() %></td>
                 <td><%= bed.getStatus() %></td>
                 <td><%= bed.getRemark() == null ? "" : bed.getRemark() %></td>
-                <td>
-                    <form action="${pageContext.request.contextPath}/admin/beds" method="post">
-                        <input type="hidden" name="action" value="updateStatus">
-                        <input type="hidden" name="id" value="<%= bed.getId() %>">
-                        <select name="status">
-                            <option value="空闲">空闲</option>
-                            <option value="已入住">已入住</option>
-                        </select>
-                        <button type="submit">更新</button>
-                    </form>
-                </td>
             </tr>
             <% }} %>
         </table>

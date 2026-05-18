@@ -25,7 +25,7 @@
     <div class="table-panel">
         <h2>申请状态</h2>
         <div class="section-tip">
-            <strong>记录说明：</strong>本页面只显示当前登录账号提交的入住申请，状态分为“待审核”“已通过”“已拒绝”三种，可用于查看申请办理进度。
+            <strong>记录说明：</strong>本页面只显示当前登录账号提交的入住申请，状态分为“待审核”“已通过”“已拒绝”三种，用于查看申请办理进度。
         </div>
         <% if ("1".equals(request.getParameter("success"))) { %>
         <div class="message success">申请已提交，请等待管理员审核。</div>
@@ -50,7 +50,7 @@
                         <%= apply.getAuditStatus() %>
                     </span>
                 </td>
-                <td><%= apply.getAuditRemark() == null ? "暂无" : apply.getAuditRemark() %></td>
+                <td><%= apply.getAuditRemark() == null || apply.getAuditRemark().trim().isEmpty() ? "暂无" : apply.getAuditRemark() %></td>
                 <td><%= apply.getCreateTime() %></td>
             </tr>
             <% }} else { %>

@@ -3,6 +3,7 @@ package com.nursinghome.servlet;
 import com.nursinghome.entity.BedInfo;
 import com.nursinghome.entity.CheckinApply;
 import com.nursinghome.entity.ElderlyProfile;
+import com.nursinghome.entity.SysUser;
 import com.nursinghome.service.BedInfoService;
 import com.nursinghome.service.CheckinApplyService;
 import com.nursinghome.service.ElderlyProfileService;
@@ -19,12 +20,17 @@ import java.util.List;
 
 @WebServlet("/staff/checkin")
 public class CheckinRegisterServlet extends HttpServlet {
+    private static final String ROLE_STAFF = "STAFF";
+
     private final CheckinApplyService applyService = new CheckinApplyService();
     private final BedInfoService bedInfoService = new BedInfoService();
     private final ElderlyProfileService elderlyProfileService = new ElderlyProfileService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!ensureStaff(req, resp)) {
+            return;
+        }
         List<CheckinApply> approvedApplyList = applyService.findApproved();
         List<BedInfo> availableBedList = bedInfoService.findAvailable();
         req.setAttribute("approvedApplyList", approvedApplyList);
@@ -34,6 +40,10 @@ public class CheckinRegisterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (!ensureStaff(req, resp)) {
+            return;
+        }
+
         ElderlyProfile profile = new ElderlyProfile();
         profile.setName(req.getParameter("name").trim());
         profile.setGender(req.getParameter("gender"));
@@ -49,6 +59,7 @@ public class CheckinRegisterServlet extends HttpServlet {
         } catch (ParseException e) {
             throw new ServletException("入住日期格式错误", e);
         }
+
         boolean profileSaved = elderlyProfileService.save(profile);
         boolean bedUpdated = profileSaved && bedInfoService.updateStatus(profile.getBedId(), "已入住");
         if (profileSaved && bedUpdated) {
@@ -57,5 +68,14 @@ public class CheckinRegisterServlet extends HttpServlet {
             req.setAttribute("errorMessage", "入住登记保存失败，请检查床位状态后重试。");
             doGet(req, resp);
         }
+    }
+
+    private boolean ensureStaff(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        SysUser loginUser = (SysUser) req.getSession().getAttribute("loginUser");
+        if (loginUser == null || !ROLE_STAFF.equals(loginUser.getRole())) {
+            resp.sendRedirect(req.getContextPath() + "/error.jsp?message=该功能仅限护工操作");
+            return false;
+        }
+        return true;
     }
 }

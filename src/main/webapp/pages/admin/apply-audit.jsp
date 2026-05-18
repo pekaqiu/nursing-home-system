@@ -25,7 +25,7 @@
     <div class="table-panel">
         <h2>申请审核列表</h2>
         <div class="section-tip">
-            <strong>审核说明：</strong>请根据老人基本情况、健康说明和入住需求进行审核。审核完成后，普通用户可在“我的申请记录”页面查看审核结果。
+            <strong>审核说明：</strong>请根据老人基本情况、健康说明和入住需求进行审核。审核完成后，普通用户可在“我的申请记录”页面查看结果，护工可根据“已通过”申请继续办理入住登记。
         </div>
         <% if ("1".equals(request.getParameter("success"))) { %>
         <div class="message success">审核结果已保存，申请状态已更新。</div>
@@ -79,7 +79,7 @@
             </tr>
             <% }} else { %>
             <tr>
-                <td colspan="10" class="empty-state">当前暂无需要审核的入住申请记录。</td>
+                <td colspan="11" class="empty-state">当前暂无需要审核的入住申请记录。</td>
             </tr>
             <% } %>
         </table>

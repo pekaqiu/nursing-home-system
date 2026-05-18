@@ -1,6 +1,5 @@
 package com.nursinghome.servlet;
 
-import com.nursinghome.entity.BedInfo;
 import com.nursinghome.service.BedInfoService;
 
 import javax.servlet.ServletException;
@@ -22,20 +21,6 @@ public class BedManageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-        if ("add".equals(action)) {
-            BedInfo bedInfo = new BedInfo();
-            bedInfo.setRoomNo(req.getParameter("roomNo"));
-            bedInfo.setBedNo(req.getParameter("bedNo"));
-            bedInfo.setBedType(req.getParameter("bedType"));
-            bedInfo.setStatus(req.getParameter("status"));
-            bedInfo.setRemark(req.getParameter("remark"));
-            bedInfoService.save(bedInfo);
-        } else if ("updateStatus".equals(action)) {
-            Integer id = Integer.valueOf(req.getParameter("id"));
-            String status = req.getParameter("status");
-            bedInfoService.updateStatus(id, status);
-        }
-        resp.sendRedirect(req.getContextPath() + "/admin/beds");
+        resp.sendRedirect(req.getContextPath() + "/error.jsp?message=管理员仅可查看床位状态，不能执行修改操作");
     }
 }
